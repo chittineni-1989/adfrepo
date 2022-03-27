@@ -1,0 +1,9 @@
+{
+	"name": "First-ADF-Compute",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "2e3ea809-4157-4ff8-bf22-6ae01df0bf34",
+		"tenantId": "1291a43c-17e4-4ea6-881b-6223f917603e"
+	}
+}
