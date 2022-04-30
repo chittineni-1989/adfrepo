@@ -12,6 +12,10 @@
 					"name": "RetrievingtheSourceTable"
 				},
 				{
+					"dataset": {
+						"referenceName": "departmentadfdb",
+						"type": "DatasetReference"
+					},
 					"name": "TargetTableExtraction"
 				}
 			],
@@ -27,8 +31,19 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> RetrievingtheSourceTable",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> TargetTableExtraction"
+				"source(output(",
+				"          DepartmentID as integer,",
+				"          Name as string,",
+				"          GroupName as string,",
+				"          ModifiedDate as timestamp,",
+				"          Status as string,",
+				"          Start_Date as timestamp,",
+				"          End_Date as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> TargetTableExtraction"
 			]
 		}
 	}
