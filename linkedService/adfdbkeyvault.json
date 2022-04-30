@@ -1,0 +1,10 @@
+{
+	"name": "adfdbkeyvault",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://sqlserverforratings.vault.azure.net/secrets/adfdb/f125fd65205f4e87bbadcf8999177002"
+		}
+	}
+}
