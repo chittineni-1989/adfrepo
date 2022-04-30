@@ -1,0 +1,21 @@
+{
+	"name": "HumanResource_Table_Retrieve",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Onprimises_SQLServer",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"TABLE_NAME": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "DB Type"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

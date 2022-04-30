@@ -1,0 +1,26 @@
+{
+	"name": "Internal_Audit",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Internal_Audit_Load",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			}
+		],
+		"folder": {
+			"name": "Inremental/Internal_Audit"
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-04-20T05:57:12Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

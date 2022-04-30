@@ -1,0 +1,16 @@
+{
+	"name": "HumanResource_Control_Table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Onprimises_SQLServer",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DB Type"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
