@@ -20,7 +20,17 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "HashValuGeneration"
+				},
+				{
+					"name": "Hashfromtarget"
+				},
+				{
+					"name": "exists1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          DepartmentID as short,",
@@ -43,7 +53,12 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> TargetTableExtraction"
+				"     format: 'table') ~> TargetTableExtraction",
+				"RetrievingtheSourceTable derive(Hashvalue = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> HashValuGeneration",
+				"TargetTableExtraction derive(targethash = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> Hashfromtarget",
+				"HashValuGeneration, Hashfromtarget exists(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1"
 			]
 		}
 	}
