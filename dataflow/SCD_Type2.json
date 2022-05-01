@@ -19,16 +19,43 @@
 					"name": "TargetTableExtraction"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "departmentadfdb",
+						"type": "DatasetReference"
+					},
+					"name": "sqlsink"
+				},
+				{
+					"dataset": {
+						"referenceName": "departmentadfdb",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
-					"name": "HashValuGeneration"
+					"name": "Hashnput"
 				},
 				{
-					"name": "Hashfromtarget"
+					"name": "HashRef"
 				},
 				{
-					"name": "exists1"
+					"name": "Exitcheckforupdates"
+				},
+				{
+					"name": "SetActivate"
+				},
+				{
+					"name": "ExistscheckforObsolate"
+				},
+				{
+					"name": "SetToActivate"
+				},
+				{
+					"name": "AlterRow1"
 				}
 			],
 			"scriptLines": [
@@ -54,11 +81,75 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> TargetTableExtraction",
-				"RetrievingtheSourceTable derive(Hashvalue = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> HashValuGeneration",
-				"TargetTableExtraction derive(targethash = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> Hashfromtarget",
-				"HashValuGeneration, Hashfromtarget exists(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"RetrievingtheSourceTable derive(InputHash = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> Hashnput",
+				"TargetTableExtraction derive(sqlhash = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> HashRef",
+				"Hashnput, HashRef exists(InputHash == sqlhash,",
 				"     negate:true,",
-				"     broadcast: 'auto')~> exists1"
+				"     broadcast: 'auto')~> Exitcheckforupdates",
+				"Exitcheckforupdates derive(isactive = 1,",
+				"          StartDate = currentTimestamp(),",
+				"          EndDate = toDate('9999-12-31')) ~> SetActivate",
+				"HashRef, SetActivate exists(TargetTableExtraction@DepartmentID == RetrievingtheSourceTable@DepartmentID",
+				"     && TargetTableExtraction@Name == RetrievingtheSourceTable@Name",
+				"     && TargetTableExtraction@GroupName == RetrievingtheSourceTable@GroupName,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> ExistscheckforObsolate",
+				"ExistscheckforObsolate derive(End_Date = toDate(currentUTC()),",
+				"          Status = 0) ~> SetToActivate",
+				"SetToActivate alterRow(updateIf(true())) ~> AlterRow1",
+				"SetActivate sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          DepartmentID as integer,",
+				"          Name as string,",
+				"          GroupName as string,",
+				"          ModifiedDate as timestamp,",
+				"          Status as string,",
+				"          Start_Date as timestamp,",
+				"          End_Date as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          DepartmentID,",
+				"          Name,",
+				"          GroupName,",
+				"          ModifiedDate,",
+				"          Status = isactive,",
+				"          Start_Date = StartDate,",
+				"          End_Date = EndDate",
+				"     )) ~> sqlsink",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          DepartmentID as integer,",
+				"          Name as string,",
+				"          GroupName as string,",
+				"          ModifiedDate as timestamp,",
+				"          Status as string,",
+				"          Start_Date as timestamp,",
+				"          End_Date as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['DepartmentID','Name','GroupName'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          DepartmentID,",
+				"          Name,",
+				"          GroupName,",
+				"          Status,",
+				"          End_Date",
+				"     )) ~> sink1"
 			]
 		}
 	}
