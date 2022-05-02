@@ -56,6 +56,9 @@
 				},
 				{
 					"name": "AlterRow1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -82,7 +85,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> TargetTableExtraction",
 				"RetrievingtheSourceTable derive(InputHash = md5(Name,GroupName,ModifiedDate)) ~> Hashnput",
-				"TargetTableExtraction derive(sqlhash = md5(Name,GroupName,ModifiedDate)) ~> HashRef",
+				"filter1 derive(sqlhash = md5(Name,GroupName,ModifiedDate)) ~> HashRef",
 				"Hashnput, HashRef exists(InputHash == sqlhash,",
 				"     negate:true,",
 				"     broadcast: 'auto')~> Exitcheckforupdates",
@@ -95,6 +98,7 @@
 				"ExistscheckforObsolate derive(End_Date = toDate(currentUTC()),",
 				"          Status = 0) ~> SetToInActivate",
 				"SetToInActivate alterRow(updateIf(true())) ~> AlterRow1",
+				"TargetTableExtraction filter(Status=='1') ~> filter1",
 				"SetActivate sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
