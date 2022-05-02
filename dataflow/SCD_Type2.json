@@ -81,7 +81,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> TargetTableExtraction",
-				"RetrievingtheSourceTable derive(InputHash = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> Hashnput",
+				"RetrievingtheSourceTable derive(InputHash = md5(DepartmentID,Name,GroupName)) ~> Hashnput",
 				"TargetTableExtraction derive(sqlhash = md5(DepartmentID,Name,GroupName,ModifiedDate)) ~> HashRef",
 				"Hashnput, HashRef exists(InputHash == sqlhash,",
 				"     negate:true,",
