@@ -59,6 +59,9 @@
 				},
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "Timestamps"
 				}
 			],
 			"scriptLines": [
@@ -89,9 +92,7 @@
 				"Hashnput, HashRef exists(InputHash == sqlhash,",
 				"     negate:true,",
 				"     broadcast: 'auto')~> Exitcheckforupdates",
-				"Exitcheckforupdates derive(isactive = 1,",
-				"          StartDate = currentTimestamp(),",
-				"          EndDate = toDate('9999-12-31')) ~> SetActivate",
+				"Exitcheckforupdates derive(isactive = 1) ~> SetActivate",
 				"HashRef, SetActivate exists(TargetTableExtraction@DepartmentID == RetrievingtheSourceTable@DepartmentID,",
 				"     negate:false,",
 				"     broadcast: 'auto')~> ExistscheckforObsolate",
@@ -99,7 +100,9 @@
 				"          Status = 0) ~> SetToInActivate",
 				"SetToInActivate alterRow(updateIf(true())) ~> AlterRow1",
 				"TargetTableExtraction filter(Status=='1') ~> filter1",
-				"SetActivate sink(allowSchemaDrift: true,",
+				"SetActivate derive(StartDate = currentTimestamp(),",
+				"          EndDate = toDate('9999-12-31')) ~> Timestamps",
+				"Timestamps sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          DepartmentID as integer,",
