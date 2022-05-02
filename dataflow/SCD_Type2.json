@@ -95,7 +95,7 @@
 				"HashRef, SetActivate exists(TargetTableExtraction@DepartmentID == RetrievingtheSourceTable@DepartmentID,",
 				"     negate:false,",
 				"     broadcast: 'auto')~> ExistscheckforObsolate",
-				"ExistscheckforObsolate derive(End_Date = toDate(currentTimestamp()),",
+				"ExistscheckforObsolate derive(End_Date = currentTimestamp(),",
 				"          Status = 0) ~> SetToInActivate",
 				"SetToInActivate alterRow(updateIf(true())) ~> AlterRow1",
 				"TargetTableExtraction filter(Status=='1') ~> filter1",
