@@ -36,6 +36,22 @@
 						"mappings": [
 							{
 								"source": {
+									"path": "$['id']"
+								},
+								"sink": {
+									"name": "id"
+								}
+							},
+							{
+								"source": {
+									"path": "$['type']"
+								},
+								"sink": {
+									"name": "type"
+								}
+							},
+							{
+								"source": {
 									"path": "$['actor']['id']"
 								},
 								"sink": {
@@ -75,8 +91,32 @@
 									"path": "$['actor']['avatar_url']"
 								},
 								"sink": {
-									"name": "actor_avatar_url",
+									"name": "actor_url",
 									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['repo']['id']"
+								},
+								"sink": {
+									"name": "repo_id"
+								}
+							},
+							{
+								"source": {
+									"path": "$['repo']['name']"
+								},
+								"sink": {
+									"name": "repo_name"
+								}
+							},
+							{
+								"source": {
+									"path": "$['repo']['url']"
+								},
+								"sink": {
+									"name": "repo_url"
 								}
 							}
 						],
