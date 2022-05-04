@@ -1,6 +1,0 @@
-{
-	"name": "SQlServerIntegration",
-	"properties": {
-		"type": "SelfHosted"
-	}
-}
