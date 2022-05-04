@@ -1,0 +1,12 @@
+{
+	"name": "HttpsJsonRead",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "READINGJSON",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"schema": []
+	}
+}
