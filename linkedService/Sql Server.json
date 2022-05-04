@@ -1,0 +1,12 @@
+{
+	"name": "Sql Server",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=sqlserverforratingsyes.database.windows.net;initial catalog=database;user id=azureadf",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDFBRDNFRUVELUZDRTYtNDU3My05Q0E3LTUwOUY2MjE1QTZBRl80NTg4MzAwNC1mNTU0LTRhZDktYmZmMi1jNmUzODE0ZDU4OWEiDQp9"
+		}
+	}
+}
