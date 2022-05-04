@@ -39,7 +39,8 @@
 									"path": "$['id']"
 								},
 								"sink": {
-									"name": "id"
+									"name": "id",
+									"type": "String"
 								}
 							},
 							{
@@ -47,7 +48,8 @@
 									"path": "$['type']"
 								},
 								"sink": {
-									"name": "type"
+									"name": "type",
+									"type": "String"
 								}
 							},
 							{
@@ -100,7 +102,8 @@
 									"path": "$['repo']['id']"
 								},
 								"sink": {
-									"name": "repo_id"
+									"name": "repo_id",
+									"type": "String"
 								}
 							},
 							{
@@ -108,7 +111,8 @@
 									"path": "$['repo']['name']"
 								},
 								"sink": {
-									"name": "repo_name"
+									"name": "repo_name",
+									"type": "String"
 								}
 							},
 							{
@@ -116,7 +120,8 @@
 									"path": "$['repo']['url']"
 								},
 								"sink": {
-									"name": "repo_url"
+									"name": "repo_url",
+									"type": "String"
 								}
 							}
 						],
