@@ -91,7 +91,7 @@
 									"path": "$['actor']['avatar_url']"
 								},
 								"sink": {
-									"name": "actor_url",
+									"name": "actor_avatar_url",
 									"type": "String"
 								}
 							},
